@@ -6,8 +6,9 @@ import App from './App';
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+root.render(<App />);
+{
+  /*<StrictMode>
+    <App />   Strict Mode runs twice on the development server
+  </StrictMode>*/
+}
