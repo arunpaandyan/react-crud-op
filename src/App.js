@@ -4,9 +4,10 @@ import AddItem from './AddItem';
 import Content from './Content';
 import Footer from './Footer';
 import SearchItem from './SearchItem';
+import apiRequest from './apiRequest';
 
 export default function App() {
-  const API_URL = 'https://641a9761f398d7d95d59f4cc.mockapi.io/items/getApi';
+  const API_URL = 'https://641bb6509b82ded29d573cc7.mockapi.io/products';
 
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
@@ -38,23 +39,53 @@ export default function App() {
     setItems(newItems);
   };
 
-  const addItem = (item) => {
+  const addItem = async (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
     setItems(listItems);
+
+    const postOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(myNewItem),
+    };
+
+    const result = await apiRequest(API_URL, postOptions);
+    if (result) setFetchError(result);
   };
 
-  const handleCheck = (id) => {
+  const handleCheck = async (id) => {
     const listItems = items.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
     setItems(listItems);
+    const myItem = listItems.filter((item) => item.id === id);
+    const putOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ checked: myItem[0].checked }),
+    };
+
+    const url = `${API_URL}/${id}`;
+    const result = await apiRequest(url, putOptions);
+    if (result) setFetchError(result);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const listItems = items.filter((item) => item.id !== id);
     setItems(listItems);
+
+    const deleteOptions = {
+      method: 'DELETE',
+    };
+    const url = `${API_URL}/${id}`;
+    const result = await apiRequest(url, deleteOptions);
+    if (result) setFetchError(result);
   };
 
   const handleSubmit = (e) => {
