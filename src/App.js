@@ -35,9 +35,6 @@ export default function App() {
       (async () => await fetchItems())();
     }, 2000);
   }, []);
-  const setAndSaveItems = (newItems) => {
-    setItems(newItems);
-  };
 
   const addItem = async (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;

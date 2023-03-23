@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaRegEdit } from 'react-icons/fa';
 const LineItem = ({ item, handleCheck, handleDelete }) => {
   return (
     <li className="item" key={item.id}>
@@ -15,6 +15,7 @@ const LineItem = ({ item, handleCheck, handleDelete }) => {
       >
         {item.item}
       </label>
+      <FaRegEdit role="button" />
       <FaTrashAlt
         onClick={() => handleDelete(item.id)}
         role="button"
